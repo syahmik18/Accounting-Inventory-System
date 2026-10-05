@@ -1,0 +1,17 @@
+{
+  "name": "accounting-sample",
+  "version": "1.0.48",
+  "description": "Sample double-entry accounting backend (PostgreSQL), reference architecture inspired by SQL Accounting's GL/AR module structure",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "db:init": "psql -f db/schema.sql",
+    "seed:demo": "node scripts/seed-demo.js"
+  },
+  "dependencies": {
+    "compression": "^1.8.2",
+    "express": "^4.22.3",
+    "pg": "^8.23.0",
+    "uuid": "^9.0.1"
+  }
+}
