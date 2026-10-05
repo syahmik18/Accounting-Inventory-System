@@ -1,0 +1,84 @@
+/* ==========================================================================
+   tokens.css — design tokens only (colour, type, radius, motion, themes).
+   ========================================================================== */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI Variable Display", "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, Menlo, monospace;
+
+  --blue: #2563EB; --cyan: #06B6D4; --green: #10B981; --amber: #F59E0B; --red: #EF4444; --violet: #8B5CF6;
+
+  --t-xs: 12px; --t-sm: 13px; --t-base: 14px; --t-md: 16px; --t-lg: 20px; --t-xl: 28px; --t-2xl: 38px;
+  --r-xl: 26px; --r-lg: 20px; --r-md: 14px; --r-sm: 10px; --r-pill: 999px;
+  --sb-w: 268px; --sb-w-c: 78px; --gap: 16px; --topbar-h: 64px;
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --dur-1: .14s; --dur-2: .26s; --dur-3: .42s;
+
+  --blur-chrome: 22px;
+  --blur-card: 0px;
+}
+
+:root, :root[data-theme="light"] {
+  color-scheme: light;
+  --bg0: #eaf0ff; --bg1: #e0f5fb; --bg2: #f0eaff;
+  --ambient: url("/img/ambient-light.jpg");   /* pre-rendered soft light: far cheaper than live radial gradients */
+
+  --ink: #0e1a33; --ink-2: #445473; --ink-3: #5b6a88;
+  --glass: rgba(255, 255, 255, .64);
+  --glass-2: rgba(255, 255, 255, .84);
+  --glass-3: rgba(255, 255, 255, .94);
+  --solid: #f7faff;
+  --rim: rgba(255, 255, 255, .95);
+  --stroke: rgba(14, 26, 51, .08);
+  --stroke-2: rgba(14, 26, 51, .15);
+  --field: rgba(255, 255, 255, .78);
+  --hover: rgba(37, 99, 235, .07);
+  --sel: rgba(37, 99, 235, .13);
+  --scrim: rgba(12, 22, 48, .34);
+
+  --shadow-1: 0 1px 2px rgba(22, 42, 96, .05), 0 10px 30px rgba(22, 42, 96, .08);
+  --shadow-2: 0 2px 6px rgba(22, 42, 96, .08), 0 30px 80px rgba(22, 42, 96, .20);
+  --glow: 0 0 0 4px rgba(37, 99, 235, .18);
+
+  --primary: #2563EB; --primary-2: #1d4ed8; --on-primary: #fff; --accent: #06B6D4;
+  --ok: #047857; --ok-bg: rgba(16, 185, 129, .15);
+  --warn: #a15207; --warn-bg: rgba(245, 158, 11, .18);
+  --bad: #b91c1c; --bad-bg: rgba(239, 68, 68, .14);
+  --info: #1d4ed8; --info-bg: rgba(37, 99, 235, .12);
+  --muted: #536280; --muted-bg: rgba(83, 98, 128, .12);
+  --chart-grid: rgba(14, 26, 51, .07);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg0: #050915; --bg1: #08112a; --bg2: #0c0a26;
+  --ambient: url("/img/ambient-dark.jpg");
+
+  --ink: #eaf1ff; --ink-2: #b1bedb; --ink-3: #8c9bbb;
+  --glass: rgba(20, 29, 58, .60);
+  --glass-2: rgba(24, 34, 68, .80);
+  --glass-3: rgba(26, 37, 74, .94);
+  --solid: #0d1530;
+  --rim: rgba(255, 255, 255, .12);
+  --stroke: rgba(255, 255, 255, .09);
+  --stroke-2: rgba(255, 255, 255, .17);
+  --field: rgba(255, 255, 255, .06);
+  --hover: rgba(96, 165, 250, .10);
+  --sel: rgba(96, 165, 250, .18);
+  --scrim: rgba(2, 5, 14, .62);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .30), 0 12px 34px rgba(0, 0, 0, .34);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, .4), 0 34px 90px rgba(0, 0, 0, .6);
+  --glow: 0 0 0 4px rgba(34, 211, 238, .22);
+
+  --primary: #3b82f6; --primary-2: #60a5fa; --on-primary: #fff; --accent: #22d3ee;
+  --ok: #34d399; --ok-bg: rgba(52, 211, 153, .16);
+  --warn: #fbbf24; --warn-bg: rgba(251, 191, 36, .16);
+  --bad: #f87171; --bad-bg: rgba(248, 113, 113, .16);
+  --info: #93c5fd; --info-bg: rgba(96, 165, 250, .16);
+  --muted: #a3b0cc; --muted-bg: rgba(163, 176, 204, .14);
+  --chart-grid: rgba(255, 255, 255, .07);
+}
+
+:root[data-glass="full"]  { --blur-card: 14px; --blur-chrome: 28px; }
+:root[data-glass="solid"] { --blur-chrome: 0px; --blur-card: 0px; --glass: var(--solid); --glass-2: var(--solid); --glass-3: var(--solid); }

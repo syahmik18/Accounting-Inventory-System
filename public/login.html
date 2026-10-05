@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-glass="balanced">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Log on — Ledger</title>
+  <meta name="theme-color" content="#2563EB">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232563EB'/%3E%3Cstop offset='1' stop-color='%2306B6D4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Cpath d='M9 8h9a5 5 0 0 1 0 10H9zm0 10h10a4.5 4.5 0 0 1 0 9H9z' fill='none' stroke='white' stroke-width='2.4' stroke-linejoin='round' opacity='.95'/%3E%3C/svg%3E">
+  <script>
+    // same theme handling as the app (no flash), without the dashboard prefetch
+    (function () {
+      var ls = function (k, d) { try { var v = localStorage.getItem('lg.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+      var t = ls('theme', 'system');
+      if (t === 'system') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('data-glass', ls('glass', 'balanced'));
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/glass.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+<body class="lg-body">
+  <main class="lg-wrap">
+    <section class="lg-hero" aria-hidden="true">
+      <div class="lg-hero-in">
+        <div class="lg-mark"></div>
+        <h1>Ledger</h1>
+        <p>Sales, purchases, inventory and accounting in one place.</p>
+        <div class="lg-tiles">
+          <div class="lg-tile"><b>One database per company</b><span>Every company is kept completely separate.</span></div>
+          <div class="lg-tile"><b>Backup &amp; restore</b><span>Save a company to a file and bring it back any time.</span></div>
+          <div class="lg-tile"><b>Your data stays here</b><span>Everything runs on your own server.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lg-card glass-float">
+      <div class="lg-brand"><div class="lg-mark sm"></div><div><b>Ledger</b><small>Accounting &amp; business</small></div></div>
+
+      <form id="lf" class="lg-form" autocomplete="off">
+        <div class="field"><label for="company">Company</label><select class="inp" id="company"></select><span class="hint" id="remark"></span></div>
+        <div class="field"><label for="user">User</label><input class="inp" id="user" value="ADMIN" autocomplete="username"></div>
+        <div class="field"><label for="pw">Password</label><input class="inp" id="pw" type="password" autocomplete="current-password"></div>
+        <div id="err"></div>
+        <button class="btn primary lg-go" type="submit">Log on</button>
+      </form>
+
+      <div class="lg-div"><span>Database setup</span></div>
+      <div class="lg-tools">
+        <button class="btn" type="button" data-create>New database</button>
+        <button class="btn" type="button" data-backup>Backup</button>
+        <button class="btn" type="button" data-restore>Restore…</button>
+      </div>
+    </section>
+  </main>
+  <div id="overlays"></div>
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+  <script type="module" src="/js/login.js"></script>
+</body>
+</html>

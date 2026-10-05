@@ -1,0 +1,121 @@
+/* ==========================================================================
+   glass.css — the Liquid Glass material and the controls built from it.
+   Performance rule: backdrop-filter only on surfaces over moving content
+   (sidebar, top bar, drawers, dialogs, popovers). Ordinary cards use a
+   translucent fill over the fixed gradient — same look, no scroll cost.
+   ========================================================================== */
+.glass, .card {
+  position: relative; background: var(--glass); border: 1px solid var(--stroke); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1), inset 0 1px 0 var(--rim);
+}
+/* No backdrop-filter on ordinary surfaces: even blur(0) forces a costly filter layer per element.
+   They sit over a static gradient where blur is invisible anyway. "Full glass" opts back in. */
+:root[data-glass="full"] .glass, :root[data-glass="full"] .card, :root[data-glass="full"] .sidebar {
+  -webkit-backdrop-filter: blur(var(--blur-card)) saturate(160%); backdrop-filter: blur(var(--blur-card)) saturate(160%);
+}
+.glass-chrome {
+  background: var(--glass); border: 1px solid var(--stroke); box-shadow: var(--shadow-1), inset 0 1px 0 var(--rim);
+  -webkit-backdrop-filter: blur(var(--blur-chrome)) saturate(180%); backdrop-filter: blur(var(--blur-chrome)) saturate(180%);
+}
+.glass-float {
+  background: var(--glass-2); border: 1px solid var(--stroke-2); box-shadow: var(--shadow-2), inset 0 1px 0 var(--rim);
+  -webkit-backdrop-filter: blur(calc(var(--blur-chrome) + 6px)) saturate(190%); backdrop-filter: blur(calc(var(--blur-chrome) + 6px)) saturate(190%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-chrome, .glass-float { background: var(--glass-3); }
+}
+
+/* the liquid highlight: soft specular sheen that follows the pointer */
+.sheen { overflow: hidden; isolation: isolate; }
+.sheen::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+  background: radial-gradient(240px 240px at var(--mx, 30%) var(--my, 0%), rgba(255, 255, 255, .55), transparent 65%);
+  transition: opacity var(--dur-2) var(--ease);
+}
+:root[data-theme="dark"] .sheen::after { background: radial-gradient(260px 260px at var(--mx, 30%) var(--my, 0%), rgba(120, 190, 255, .20), transparent 65%); }
+@media (hover: hover) { .sheen:hover::after { opacity: 1; } }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px;
+  border-radius: var(--r-md); border: 1px solid var(--stroke-2); background: var(--field); color: var(--ink);
+  font-weight: 600; font-size: var(--t-base); white-space: nowrap; user-select: none; box-shadow: inset 0 1px 0 var(--rim);
+  transition: transform var(--dur-1) var(--ease), background var(--dur-1), box-shadow var(--dur-2), border-color var(--dur-1);
+}
+.btn:hover { background: var(--glass-3); text-decoration: none; }
+.btn:active { transform: scale(.975); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+.btn.primary {
+  color: var(--on-primary); border-color: transparent;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 88%, #fff) 0%, var(--primary) 55%, var(--primary-2) 100%);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, .34), inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+.btn.primary:hover { filter: brightness(1.07); }
+.btn.danger { color: var(--bad); }
+.btn.danger.solid { background: var(--red); color: #fff; border-color: transparent; }
+.btn.ghost { background: transparent; border-color: transparent; box-shadow: none; }
+.btn.ghost:hover { background: var(--hover); }
+.btn.sm { height: 32px; padding: 0 12px; font-size: var(--t-sm); border-radius: var(--r-sm); }
+.btn.lg { height: 46px; padding: 0 22px; font-size: var(--t-md); }
+.btn svg { width: 17px; height: 17px; flex: none; }
+.icon-btn {
+  display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: var(--r-md); border: 1px solid transparent;
+  background: transparent; color: var(--ink-2); position: relative;
+  transition: background var(--dur-1), color var(--dur-1), transform var(--dur-1) var(--ease);
+}
+.icon-btn:hover { background: var(--hover); color: var(--ink); }
+.icon-btn:active { transform: scale(.94); }
+.icon-btn svg { width: 20px; height: 20px; }
+.icon-btn.sm { width: 32px; height: 32px; border-radius: var(--r-sm); }
+.icon-btn.sm svg { width: 17px; height: 17px; }
+.dot { position: absolute; top: 8px; right: 9px; min-width: 8px; height: 8px; border-radius: 8px; background: var(--red); box-shadow: 0 0 0 2px var(--solid); }
+
+/* ---------- form controls ---------- */
+.inp {
+  width: 100%; height: 40px; padding: 0 12px; border-radius: var(--r-md); border: 1px solid var(--stroke-2); background: var(--field); color: var(--ink);
+  box-shadow: inset 0 1px 2px rgba(14, 26, 51, .05); transition: border-color var(--dur-1), box-shadow var(--dur-1), background var(--dur-1);
+}
+textarea.inp { height: auto; min-height: 76px; padding: 10px 12px; resize: vertical; }
+select.inp { appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238090ad' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 11px center; }
+.inp::placeholder { color: var(--ink-3); opacity: .85; }
+.inp:hover { border-color: color-mix(in srgb, var(--primary) 35%, var(--stroke-2)); }
+.inp:focus { border-color: var(--primary); box-shadow: var(--glow); background: var(--glass-3); }
+.inp[readonly], .inp:disabled { opacity: .72; background: var(--muted-bg); }
+.inp.num { text-align: right; }
+.inp.sm { height: 34px; font-size: var(--t-sm); }
+.inp.bad { border-color: var(--red); }
+option { color: #0e1a33; background: #fff; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > label, .lbl { font-size: var(--t-sm); font-weight: 600; color: var(--ink-2); }
+.field .hint { font-size: var(--t-xs); color: var(--ink-3); }
+.field .err { font-size: var(--t-xs); color: var(--bad); }
+.req::after { content: " *"; color: var(--red); }
+.check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: var(--t-sm); color: var(--ink-2); user-select: none; }
+.check input { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border-radius: 6px; border: 1.5px solid var(--stroke-2); background: var(--field); display: grid; place-items: center; transition: background var(--dur-1), border-color var(--dur-1); flex: none; margin: 0; }
+.check input:checked { background: var(--primary); border-color: var(--primary); }
+.check input:checked::after { content: ""; width: 9px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translate(1px, -1px); }
+
+/* ---------- segmented control / chips ---------- */
+.seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: var(--r-md); background: var(--muted-bg); border: 1px solid var(--stroke); }
+.seg button { height: 32px; padding: 0 14px; border: 0; background: transparent; border-radius: 11px; font-weight: 600; font-size: var(--t-sm); color: var(--ink-2); transition: background var(--dur-1), color var(--dur-1), box-shadow var(--dur-1); }
+.seg button:hover { color: var(--ink); }
+.seg button.on { background: var(--glass-3); color: var(--ink); box-shadow: 0 1px 3px rgba(14, 26, 51, .14), inset 0 1px 0 var(--rim); }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: var(--r-pill); border: 1px solid var(--stroke-2); background: var(--field); font-size: var(--t-sm); font-weight: 600; color: var(--ink-2); transition: background var(--dur-1), color var(--dur-1), border-color var(--dur-1); }
+.chip:hover { background: var(--hover); color: var(--ink); }
+.chip.on { background: var(--sel); border-color: color-mix(in srgb, var(--primary) 45%, transparent); color: var(--primary); }
+:root[data-theme="dark"] .chip.on { color: var(--primary-2); }
+.chip .n { font-variant-numeric: tabular-nums; opacity: .75; font-weight: 500; }
+
+/* ---------- badges ---------- */
+.badge { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: var(--r-pill); font-size: var(--t-xs); font-weight: 650; white-space: nowrap; }
+.badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .9; }
+.tone-ok { color: var(--ok); background: var(--ok-bg); }
+.tone-warn { color: var(--warn); background: var(--warn-bg); }
+.tone-bad { color: var(--bad); background: var(--bad-bg); }
+.tone-info { color: var(--info); background: var(--info-bg); }
+.tone-muted { color: var(--muted); background: var(--muted-bg); }
+
+/* Solid = fastest: no backdrop filters anywhere */
+:root[data-glass="solid"] *, :root[data-glass="solid"] *::before, :root[data-glass="solid"] *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
