@@ -67,6 +67,3 @@ Default login for a new company is user `ADMIN`, password `ADMIN`. **Change it, 
 - Single built-in ADMIN user, no role-based permissions
 - Setup requires applying migrations manually
 
-## License
-
-Add a license file before sharing widely (MIT is a common choice for sample projects).
